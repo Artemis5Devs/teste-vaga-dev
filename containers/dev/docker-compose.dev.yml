@@ -1,0 +1,53 @@
+version: "3.7"
+
+services:
+#  web:
+#    image: node:18.16.0-alpine
+#    ports:
+#      - "8020:3000"
+#    working_dir: /app
+#    volumes:
+#      - ../../frontend/enterprises-crud:/app
+#    command: npm start
+
+  api:
+    image: webdevops/php-apache:8.1-alpine
+    container_name: enterprises-crud
+    tty: true
+    ports:
+      - "8000:80"
+    working_dir: /app
+    volumes:
+      - ../../backend:/app
+    environment:
+      WEB_DOCUMENT_ROOT: /app
+    command: sh -c "composer install && /usr/bin/supervisord -c /opt/docker/etc/supervisor.conf --logfile /dev/null --pidfile /dev/null --user root"
+    links:
+      - database
+
+  database:
+    image: mysql:8.0
+    container_name: MySQL
+    tty: false
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: enterprises-crud
+    volumes:
+      - data_db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: phpMyAdmin
+    tty: false
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: database
+    ports:
+      - "8010:80"
+    links:
+      - database
+
+volumes:
+  data_db:
