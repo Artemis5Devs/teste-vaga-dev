@@ -1,0 +1,23 @@
+{
+    "name": "venchiarutti/teste-vaga-dev",
+    "description": "Projeto utilizando PHP e ReactJS pra gerenciamento de cadastro de clientes",
+    "type": "project",
+    "require": {
+        "mikecao/flight": "^2.0",
+        "doctrine/orm": "^2.14",
+        "doctrine/cache": "^2.2",
+        "symfony/cache": "^5",
+        "doctrine/annotations": "^2.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Venchiarutti\\TesteVagaDev\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Henrique Venchiarutti"
+        }
+    ]
+}
